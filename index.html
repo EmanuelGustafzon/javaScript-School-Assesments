@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="./styles.css">
+</head>
+<body>
+    <div class="game">
+        <h1>Guess a number between 1 and 100</h1>
+        <div class="history-wrapper">
+            <p>Your guess history: </p>
+            <ol id="guess-history" class="guesses"></ol>
+        </div>
+        <input id="user-input" placeholder="ex: 45" type="number">
+        <button id="submit-guess">Make guess</button>
+        <div class="feedback-wrapper">
+            <p id="feedback"></p>
+        </div>
+    </div>
+    <script src="./app.js"></script>
+</body>
+</html>
