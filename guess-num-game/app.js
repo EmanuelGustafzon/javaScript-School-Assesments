@@ -1,11 +1,14 @@
 class GameState {
-    randomNumber;
+    _randomNumber;
 
     constructor () {
         this.setRandomNumber();
     }
     setRandomNumber() {
-        this.randomNumber = (Math.floor(Math.random() * 100) + 1);
+        this._randomNumber = (Math.floor(Math.random() * 100) + 1);
+    }
+    getRandomNumber() {
+        return this._randomNumber;
     }
 } 
 const gameState = new GameState();
@@ -27,7 +30,6 @@ const clearGuessHistoryInDom = () => {
 const getUserinput = () => {
     return document.getElementById('user-input').value; 
 }
-
 const validateInput = (value) => {
     const isValid = Number(value) > 0 && Number(value) <= 100;
     if(!isValid) {
@@ -36,10 +38,9 @@ const validateInput = (value) => {
     }
     return 1;
 }
-
 const checkGuess = () => {
     const guess = Number(getUserinput());
-    const correctAnswer  = gameState.randomNumber;
+    const correctAnswer  = gameState.getRandomNumber();
 
     if(guess === correctAnswer) {
         giveUserFeedBack('congrats, you got it right!');
@@ -52,7 +53,6 @@ const checkGuess = () => {
 
     addGuessHistoryInDom(guess)
 }
-
 document.getElementById('submit-guess').addEventListener('click', () => {
     if(!validateInput(getUserinput())) return
     checkGuess();
