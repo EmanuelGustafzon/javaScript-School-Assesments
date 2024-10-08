@@ -1,18 +1,11 @@
 class GameState {
     randomNumber;
-    lastGuesses = [];
 
     constructor () {
         this.setRandomNumber();
     }
     setRandomNumber() {
         this.randomNumber = (Math.floor(Math.random() * 100) + 1);
-    }
-    addGuess(number) {
-        this.lastGuesses.push(number)
-    }
-    clearGuesses() {
-        this.lastGuesses = [];
     }
 } 
 const gameState = new GameState();
@@ -47,11 +40,9 @@ const validateInput = (value) => {
 const checkGuess = () => {
     const guess = Number(getUserinput());
     const correctAnswer  = gameState.randomNumber;
-    console.log(guess, correctAnswer)
 
     if(guess === correctAnswer) {
         giveUserFeedBack('congrats, you got it right!');
-        gameState.clearGuesses();
         gameState.setRandomNumber();
         clearGuessHistoryInDom();
         return
@@ -59,7 +50,6 @@ const checkGuess = () => {
     if(guess < correctAnswer) giveUserFeedBack('Bigger');
     if(guess > correctAnswer) giveUserFeedBack('smaller');
 
-    gameState.addGuess(guess);
     addGuessHistoryInDom(guess)
 }
 
