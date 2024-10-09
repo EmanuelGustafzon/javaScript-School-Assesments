@@ -1,7 +1,12 @@
 class GameState {
     _randomNumber;
+    _totalGuesses = 0;
 
     constructor () {
+        if(GameState.instance) {
+            return GameState.instance; // If an instance is created already it will be refrenced in the instance property.
+        }
+        GameState.instance = this; // Set new property named instance and reference it to this object.
         this.setRandomNumber();
     }
     setRandomNumber() {
@@ -10,8 +15,14 @@ class GameState {
     getRandomNumber() {
         return this._randomNumber;
     }
+    incrementTotalGuesses() {
+        this._totalGuesses++;
+    }
+    getTotalguesses() {
+        return this._totalGuesses;
+    }
 } 
-const gameState = new GameState();
+const gameState = new GameState(); // Singleton
 
 const giveUserFeedBack = (feedback) => document.getElementById('feedback').textContent = feedback;
 
@@ -43,17 +54,19 @@ const checkGuess = () => {
     const correctAnswer  = gameState.getRandomNumber();
 
     if(guess === correctAnswer) {
-        giveUserFeedBack('congrats, you got it right!');
+        const totalGuesses = gameState.getTotalguesses();
+        giveUserFeedBack(`congrats, you got it right! It took you ${totalGuesses} ${totalGuesses === 1 ? ' attempt.' : ' attempts.'}`);
         gameState.setRandomNumber();
         clearGuessHistoryInDom();
-        return
+        return;
     }
     if(guess < correctAnswer) giveUserFeedBack('Bigger');
     if(guess > correctAnswer) giveUserFeedBack('smaller');
 
-    addGuessHistoryInDom(guess)
+    addGuessHistoryInDom(guess);
+    gameState.incrementTotalGuesses();
 }
 document.getElementById('submit-guess').addEventListener('click', () => {
-    if(!validateInput(getUserinput())) return
+    if(!validateInput(getUserinput())) return;
     checkGuess();
-})
+});
