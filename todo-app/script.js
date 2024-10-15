@@ -29,7 +29,7 @@ class TodoList {
     checkTodo(id) {
         id = Number(id)
         const foundItem = this._todoList.find(todo => todo.id === id);
-        if(foundItem !== -1) foundItem.isDone = !foundItem.isDone;
+        if(foundItem) foundItem.isDone = !foundItem.isDone;
         this.save();
     }
     remove(id) {
@@ -45,8 +45,8 @@ class TodoList {
         localStorage.setItem('todoList', JSON.stringify(this._todoList)); 
     }
     load() {
-        const listFromStorage  = JSON.parse(localStorage.getItem('todoList'));
-        this._todoList = [...listFromStorage];
+        const listFromStorage  = JSON.parse(localStorage.getItem('todoList') || '[]');
+        this._todoList = listFromStorage ? [...listFromStorage] : [];
     }
 }
 
@@ -102,14 +102,13 @@ function getStoredTodos() {
     const todoList = new TodoList();
     todoList.load()
     const allStoredTodos = todoList.getList()
-    console.log(allStoredTodos)
     allStoredTodos.forEach(todo => {
         const todoUI = new TodoUI(todo.id, todo.text, todo.isDone, todoList);
     })
 }
 
 addTodoBtn.addEventListener('click', () => {
-    if(userInput.value.strip !== '') addNewTodoItem(userInput.value)
+    if(userInput.value.trim() !== '') addNewTodoItem(userInput.value);
 });
 
-document.addEventListener('DOMContentLoaded', getStoredTodos)
+document.addEventListener('DOMContentLoaded', getStoredTodos);
