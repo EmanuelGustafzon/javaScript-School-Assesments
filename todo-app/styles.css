@@ -1,0 +1,11 @@
+li {
+    display: flex;
+    gap: 30px;
+}
+.delete {
+    padding: 0 1.5em 0 1.5em;
+    border-width: 0;
+}
+.checked {
+    text-decoration: line-through;
+}
